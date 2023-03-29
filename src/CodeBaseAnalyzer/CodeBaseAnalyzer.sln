@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBaseAnalyzer.Cmd", "CodeBaseAnalyzer.Cmd\CodeBaseAnalyzer.Cmd.csproj", "{F16601BB-DE19-4697-98F4-D287B618A651}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBaseAnalyzer", "CodeBaseAnalyzer\CodeBaseAnalyzer.csproj", "{8D8811D3-BF1C-4792-A669-8993876C7C22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBaseAnalyzer", "CodeBaseAnalyzer\CodeBaseAnalyzer.csproj", "{8D8811D3-BF1C-4792-A669-8993876C7C22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBaseAnalyzer.Tests", "CodeBaseAnalyzer.Tests\CodeBaseAnalyzer.Tests.csproj", "{09BDEAE3-9A2C-4BAF-B4F3-A5BC4D5E8831}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8D8811D3-BF1C-4792-A669-8993876C7C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D8811D3-BF1C-4792-A669-8993876C7C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D8811D3-BF1C-4792-A669-8993876C7C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09BDEAE3-9A2C-4BAF-B4F3-A5BC4D5E8831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BDEAE3-9A2C-4BAF-B4F3-A5BC4D5E8831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BDEAE3-9A2C-4BAF-B4F3-A5BC4D5E8831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BDEAE3-9A2C-4BAF-B4F3-A5BC4D5E8831}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

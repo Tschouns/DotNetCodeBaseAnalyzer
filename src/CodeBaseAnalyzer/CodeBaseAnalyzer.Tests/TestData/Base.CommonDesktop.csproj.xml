@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{331A4352-3C64-4976-84BA-432CB420AC44}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AcmeCorp.RoadRunnerplus.Base.Common</RootNamespace>
+    <AssemblyName>RoadRunnerPlusBaseDesktop</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <SGenUseProxyTypes>false</SGenUseProxyTypes>
+    <BaseIntermediateOutputPath>obj_net4\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\DesktopApplications\Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DocumentationFile>
+    </DocumentationFile>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\DesktopApplications\Bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugNET35|x86' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SGenToolPath>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Bin</SGenToolPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Platform>x86</Platform>
+    <OutputPath>bin\DebugNET35\x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NET35</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <SGenUseProxyTypes>false</SGenUseProxyTypes>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseNET35|x86' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SGenToolPath>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Bin</SGenToolPath>
+    <OutputPath>bin\ReleaseNET35\x86\</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <SGenUseProxyTypes>false</SGenUseProxyTypes>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugNET35|AnyCPU' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SGenToolPath>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Bin</SGenToolPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Platform>AnyCPU</Platform>
+    <OutputPath>bin\DebugNET35\AnyCPU\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NET35</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <SGenUseProxyTypes>false</SGenUseProxyTypes>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseNET35|AnyCPU' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SGenToolPath>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Bin</SGenToolPath>
+    <OutputPath>bin\ReleaseNET35\AnyCPU\</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <SGenUseProxyTypes>false</SGenUseProxyTypes>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\..\StrongNameKey\AcmeCorpKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="AbortRequest.cs" />
+    <Compile Include="AccessLevels.cs" />
+    <Compile Include="AccessMode.cs" />
+    <Compile Include="ActivityChangedType.cs" />
+    <Compile Include="ActivityCharacteristics.cs" />
+    <Compile Include="AppEnvironment.cs" />
+    <Compile Include="AsyncResult.cs" />
+    <Compile Include="Attributes\CapabilityAttribute.cs" />
+    <Compile Include="Attributes\IContract.cs" />
+    <Compile Include="Attributes\IContractor.cs" />
+    <Compile Include="Attributes\MachineObjectContractAttribute.cs" />
+    <Compile Include="BlockingQueue.cs" />
+    <Compile Include="CapabilityTarget.cs" />
+    <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="ConcurrentDictionary\ConcurrentDictionary.cs" />
+    <Compile Include="ConcurrentDictionary\FrameworkTraits.cs" />
+    <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="Cryptography\CRC.cs" />
+    <Compile Include="DataLoggingPacket.cs" />
+    <Compile Include="DebugModeSettings\DebugModeSettings.cs" />
+    <Compile Include="DebugModeSettings\DesktopDebugModeSettings.cs" />
+    <Compile Include="DebugModeSettings\DeviceDebugModeSettings.cs" />
+    <Compile Include="DescriptionVersionCalculator.cs" />
+    <Compile Include="DesktopRegionalSettingsProvider.cs" />
+    <Compile Include="DeviceIdentification.cs" />
+    <Compile Include="DeviceRegionalSettingsProvider.cs" />
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="Exceptions\RoadRunnerAbortActivityException.cs" />
+    <Compile Include="Exceptions\RoadRunnerAccessDeniedException.cs" />
+    <Compile Include="Exceptions\RoadRunnerActivityRuntimeError.cs" />
+    <Compile Include="Exceptions\RoadRunnerAggregateException.cs" />
+    <Compile Include="Exceptions\RoadRunnerAmbiguousResourceException.cs" />
+    <Compile Include="Exceptions\RoadRunnerBarcodeMismatchException.cs" />
+    <Compile Include="Exceptions\RoadRunnerBatchMemoryUsageTooHighException.cs" />
+    <Compile Include="Exceptions\RoadRunnerCollisionAvoidanceException.cs" />
+    <Compile Include="Exceptions\RoadRunnerEmptyBatchSchedulerException.cs" />
+    <Compile Include="Exceptions\RoadRunnerErrors.cs" />
+    <Compile Include="Exceptions\RoadRunnerException.cs" />
+    <Compile Include="Exceptions\RoadRunnerExceptionNotifiedEventArgs.cs" />
+    <Compile Include="Exceptions\RoadRunnerFakeInjectionNeededException.cs" />
+    <Compile Include="Exceptions\RoadRunnerFatalException.cs" />
+    <Compile Include="Exceptions\RoadRunnerIllegalStateException.cs" />
+    <Compile Include="Exceptions\RoadRunnerInvalidFormatException.cs" />
+    <Compile Include="Exceptions\RoadRunnerInvalidOperationException.cs" />
+    <Compile Include="Exceptions\RoadRunnerInvalidResourceException.cs" />
+    <Compile Include="Exceptions\RoadRunnerInvalidStateException.cs" />
+    <Compile Include="Exceptions\RoadRunnerOperationFailedException.cs" />
+    <Compile Include="Exceptions\RoadRunnerPlusApiException.cs" />
+    <Compile Include="Exceptions\RoadRunnerResourceException.cs" />
+    <Compile Include="Exceptions\RoadRunnerResourceNotAvailableException.cs" />
+    <Compile Include="Exceptions\RoadRunnerRuntimeError.cs" />
+    <Compile Include="Exceptions\RoadRunnerSchedulerException.cs" />
+    <Compile Include="Exceptions\RoadRunnerSchedulerResourceNotAvailableException.cs" />
+    <Compile Include="Exceptions\RoadRunnerSmartInterfaceException.cs" />
+    <Compile Include="Exceptions\RoadRunnerTimerElapsedException.cs" />
+    <Compile Include="Exceptions\RoadRunnerTimingException.cs" />
+    <Compile Include="ExecutionState.cs" />
+    <Compile Include="ExtensionMethodsAndUtilities.cs" />
+    <Compile Include="GlobalEnums\CalibrationMode.cs" />
+    <Compile Include="GlobalEnums\Edition.cs" />
+    <Compile Include="GlobalEnums\ExchangeableParts.cs" />
+    <Compile Include="GlobalEnums\FiberCoreType.cs" />
+    <Compile Include="GlobalEnums\GasValvePosition.cs" />
+    <Compile Include="GlobalEnums\HomingStrategy.cs" />
+    <Compile Include="GlobalEnums\LicenseRestriction.cs" />
+    <Compile Include="GlobalEnums\NeedleCoating.cs" />
+    <Compile Include="GlobalEnums\NeedleFlangeType.cs" />
+    <Compile Include="GlobalEnums\PlungerTip.cs" />
+    <Compile Include="GlobalEnums\PointStyle.cs" />
+    <Compile Include="GlobalEnums\RenameMode.cs" />
+    <Compile Include="GlobalEnums\RobotAxis.cs" />
+    <Compile Include="GlobalEnums\RobotHead.cs" />
+    <Compile Include="GlobalEnums\RobotObstaclePart.cs" />
+    <Compile Include="GlobalEnums\RobotPart.cs" />
+    <Compile Include="GlobalEnums\RobotResources.cs" />
+    <Compile Include="GlobalEnums\SampleExecutionMode.cs" />
+    <Compile Include="GlobalEnums\SlotState.cs" />
+    <Compile Include="GlobalEnums\SmartObjectStatus.cs" />
+    <Compile Include="GlobalEnums\StackDrawerMagnetPlateLocation.cs" />
+    <Compile Include="GlobalEnums\SyringeBodyType.cs" />
+    <Compile Include="GlobalEnums\TeachingMode.cs" />
+    <Compile Include="GlobalEnums\TerminateState.cs" />
+    <Compile Include="GlobalEnums\ToolMountingState.cs" />
+    <Compile Include="GlobalEnums\ToolTeachingAdapterAction.cs" />
+    <Compile Include="GlobalEnums\TouchdownMode.cs" />
+    <Compile Include="GlobalEnums\ValveDriveStatus.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GuidUtils.cs" />
+    <Compile Include="HashSet\HashSet.cs" />
+    <Compile Include="IApplicationService.cs" />
+    <Compile Include="IConfigurationSectionProvider.cs" />
+    <Compile Include="IPartialSerialized.cs" />
+    <Compile Include="ISplashScreen.cs" />
+    <Compile Include="ITree.cs" />
+    <Compile Include="Logbook\ILogbookEntry.cs" />
+    <Compile Include="Logbook\LogbookEntryCreatedEventArgs.cs" />
+    <Compile Include="MachineObjectChangedType.cs" />
+    <Compile Include="MachineObjectPath.cs" />
+    <Compile Include="MachineObjectReference.cs" />
+    <Compile Include="MachineOperationState.cs" />
+    <Compile Include="Mathematics\AffineTransform3D.cs" />
+    <Compile Include="Mathematics\Cuboid.cs" />
+    <Compile Include="Mathematics\Machine.cs" />
+    <Compile Include="Mathematics\Mapack\CholeskyDecomposition.cs" />
+    <Compile Include="Mathematics\Mapack\EigenvalueDecomposition.cs" />
+    <Compile Include="Mathematics\Mapack\LuDecomposition.cs" />
+    <Compile Include="Mathematics\Mapack\Matrix.cs" />
+    <Compile Include="Mathematics\Mapack\QrDecomposition.cs" />
+    <Compile Include="Mathematics\Mapack\SingularValueDecomposition.cs" />
+    <Compile Include="Mathematics\Matrix3D.cs" />
+    <Compile Include="Mathematics\MatrixTransform3D.cs" />
+    <Compile Include="Mathematics\Point.cs" />
+    <Compile Include="Mathematics\Quaternion.cs" />
+    <Compile Include="Mathematics\Segment.cs" />
+    <Compile Include="Mathematics\Vector.cs" />
+    <Compile Include="Messaging\IAlarmMessages.cs" />
+    <Compile Include="Messaging\IDataLoggerPublisher.cs" />
+    <Compile Include="Messaging\ILocalizableMessage.cs" />
+    <Compile Include="Messaging\IMessageListener.cs" />
+    <Compile Include="Messaging\IMessageServer.cs" />
+    <Compile Include="Messaging\ISystemMessage.cs" />
+    <Compile Include="Messaging\MessageAction.cs" />
+    <Compile Include="Messaging\SystemMessage.cs" />
+    <Compile Include="Messaging\SystemMessageDisplayMode.cs" />
+    <Compile Include="Messaging\SystemMessageSeverity.cs" />
+    <Compile Include="Notification.cs" />
+    <Compile Include="NumericHelper.cs" />
+    <Compile Include="ParameterFramework\AbstractParameterFactory.cs" />
+    <Compile Include="ParameterFramework\Enumeration.cs" />
+    <Compile Include="ParameterFramework\IParameter.cs" />
+    <Compile Include="ParameterFramework\IParameterContainer.cs" />
+    <Compile Include="ParameterFramework\IParameterDescription.cs" />
+    <Compile Include="ParameterFramework\IParameterDescriptionContainer.cs" />
+    <Compile Include="ParameterFramework\MachineObjectParameterFactory.cs" />
+    <Compile Include="ParameterFramework\Parameter.cs" />
+    <Compile Include="ParameterFramework\ParameterAttributes.cs" />
+    <Compile Include="ParameterFramework\ParameterContainerBase.cs" />
+    <Compile Include="ParameterFramework\ParameterContainerUtility.cs" />
+    <Compile Include="ParameterFramework\ParameterDescription.cs" />
+    <Compile Include="ParameterFramework\ParameterDescriptionXmlSerializer.cs" />
+    <Compile Include="ParameterFramework\ParameterFactory.cs" />
+    <Compile Include="ParameterFramework\ParameterValueXmlSerializer.cs" />
+    <Compile Include="ParameterFramework\ParameterXmlSerializer.cs" />
+    <Compile Include="PathProvider\PathProviderBase.cs" />
+    <Compile Include="Performance\ActivityDurationMeasurement.cs" />
+    <Compile Include="Performance\PerformanceCounter.cs" />
+    <Compile Include="Performance\PerformanceCounterCategory.cs" />
+    <Compile Include="Performance\PerformanceLogger.cs" />
+    <Compile Include="Performance\PerformanceReading.cs" />
+    <Compile Include="PlugInSystem\IPlugInSystemAccess.cs" />
+    <Compile Include="PlugInSystem\Light\LantronixAdapterInfo.cs" />
+    <Compile Include="PlugInSystem\Light\PluginLightConstants.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequiredOsVersionAttribute.cs" />
+    <Compile Include="RequiredPlatformVersionAttribute.cs" />
+    <Compile Include="RGBWColor.cs" />
+    <Compile Include="SafeEnumerator.cs" />
+    <Compile Include="SafeList.cs" />
+    <Compile Include="ServiceInfrastructure.cs" />
+    <Compile Include="Cryptography\MD5Helper.cs" />
+    <Compile Include="Session\IClient.cs" />
+    <Compile Include="SettingsProviders\IAppEnvironmentConfiguration.cs" />
+    <Compile Include="SettingsProviders\IApplicationServicesCoordinator.cs" />
+    <Compile Include="SettingsProviders\IDebugModeSettings.cs" />
+    <Compile Include="SettingsProviders\IPathProvider.cs" />
+    <Compile Include="SettingsProviders\IPolishedViewSettings.cs" />
+    <Compile Include="SettingsProviders\IRegionalSettingsProvider.cs" />
+    <Compile Include="SettingsProviders\IValidationSettings.cs" />
+    <Compile Include="StateDescription.cs" />
+    <Compile Include="StateDescriptionEventArgs.cs" />
+    <Compile Include="StatusEventArgs.cs" />
+    <Compile Include="StatusMessage.cs" />
+    <Compile Include="SubscriptionTopics.cs" />
+    <Compile Include="SystemFeature.cs" />
+    <Compile Include="Threading\IThreadWorkItemExceptionHandler.cs" />
+    <Compile Include="Threading\ThreadingHelper.cs" />
+    <Compile Include="Threading\ThreadWorkItem.cs" />
+    <Compile Include="Units\MicroUnitProvider.cs" />
+    <Compile Include="Units\Quantity.cs" />
+    <Compile Include="Units\QuantityExtensions.cs" />
+    <Compile Include="Units\SI.cs" />
+    <Compile Include="Units\Unit.cs" />
+    <Compile Include="Units\UnitAngle.cs" />
+    <Compile Include="Units\UnitCandela.cs" />
+    <Compile Include="Units\UnitComposition.cs" />
+    <Compile Include="Units\UnitCompositionAcceleration.cs" />
+    <Compile Include="Units\UnitCompositionAngularAcceleration.cs" />
+    <Compile Include="Units\UnitCompositionAngularJerk.cs" />
+    <Compile Include="Units\UnitCompositionAngularVelocity.cs" />
+    <Compile Include="Units\UnitCompositionArea.cs" />
+    <Compile Include="Units\UnitCompositionDynamicViscosity.cs" />
+    <Compile Include="Units\UnitCompositionEnergy.cs" />
+    <Compile Include="Units\UnitCompositionForce.cs" />
+    <Compile Include="Units\UnitCompositionFrequency.cs" />
+    <Compile Include="Units\UnitCompositionInductance.cs" />
+    <Compile Include="Units\UnitCompositionJerk.cs" />
+    <Compile Include="Units\UnitCompositionKinematicViscosity.cs" />
+    <Compile Include="Units\UnitCompositionPower.cs" />
+    <Compile Include="Units\UnitCompositionPressure.cs" />
+    <Compile Include="Units\UnitCompositionResistance.cs" />
+    <Compile Include="Units\UnitCompositionSpeed.cs" />
+    <Compile Include="Units\UnitCompositionTemperatureSlope.cs" />
+    <Compile Include="Units\UnitCompositionTorque.cs" />
+    <Compile Include="Units\UnitCompositionVoltsPerHertzRatio.cs" />
+    <Compile Include="Units\UnitCompositionVolumeAcceleration.cs" />
+    <Compile Include="Units\UnitCompositionVolumeFlow.cs" />
+    <Compile Include="Units\UnitConstant.cs" />
+    <Compile Include="Units\UnitCurrent.cs" />
+    <Compile Include="Units\UnitDigitalInformation.cs" />
+    <Compile Include="Units\UnitException.cs" />
+    <Compile Include="Units\UnitFactory.cs" />
+    <Compile Include="Units\UnitLength.cs" />
+    <Compile Include="Units\UnitMass.cs" />
+    <Compile Include="Units\UnitMol.cs" />
+    <Compile Include="Units\UnitParserBinaryNode.cs" />
+    <Compile Include="Units\UnitParserEval.cs" />
+    <Compile Include="Units\UnitParserNode.cs" />
+    <Compile Include="Units\UnitParserTree.cs" />
+    <Compile Include="Units\UnitParserTreeBuilder.cs" />
+    <Compile Include="Units\UnitParserUnitNode.cs" />
+    <Compile Include="Units\UnitPool.cs" />
+    <Compile Include="Units\UnitTemperature.cs" />
+    <Compile Include="Units\UnitTemperatureDifference.cs" />
+    <Compile Include="Units\UnitTime.cs" />
+    <Compile Include="Units\UnitVoltage.cs" />
+    <Compile Include="Units\UnitVolume.cs" />
+    <Compile Include="ValidationResult.cs" />
+    <Compile Include="ValidationSettings.cs" />
+    <Compile Include="ValidatorUtility.cs" />
+    <Compile Include="VisibilityModifiers.cs" />
+    <Compile Include="Watchdog\IWatchdogBehavior.cs" />
+    <Compile Include="Watchdog\Watchdog.cs" />
+    <Compile Include="XmlConversionHelper.cs" />
+    <Compile Include="XmlNodeWriter.cs" />
+    <Compile Include="XmlReaderExtensions.cs" />
+    <Compile Include="XmlSerialization.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RoadRunnerPlusSchema.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="RoadRunnerPlusBaseTypes.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\..\..\CodeAnalysisDictionary.xml">
+      <Link>CodeAnalysisDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logging\LoggingDesktop.csproj">
+      <Project>{9e6c7178-c0b1-41dc-87b5-6763dd303bbb}</Project>
+      <Name>LoggingDesktop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>del /f /s /q "$(ProjectDir)obj"
+
+</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

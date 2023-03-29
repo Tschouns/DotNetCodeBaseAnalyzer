@@ -1,0 +1,66 @@
+﻿<Project>
+
+	
+	<Import Project="..\..\..\..\DesktopApplications\RoadRunnerPlusDriverSdkBuilder\SDK.CP.Build.props" />
+
+
+	<PropertyGroup>
+		<RootNamespace>AcmeCorp.RoadRunnerplus.Base.Common</RootNamespace>
+		<Title>Base Common</Title>
+		<ProductName>Base.Common</ProductName>
+		<AssemblyName>$(ProductName)$(AssemblyPostFixName)</AssemblyName>
+		<Description>RoadRunnerSystem $(ProductName) API Library</Description>
+		<Product>$(ProductName) $(Info)</Product>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefaultItemExcludes>*.vspscc; *.DotSettings </DefaultItemExcludes>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+
+		<!--<InternalsVisibleTo Include="RoadRunnerPlusDriverBase, PublicKey=002400000480000094000000060200000024000052534131000400000100010071225d282b736a375712252075a28c62b1485b01207d79d3762771c4c0270c38604febc47cb56770c4c172061b13b2f281f7d1e5b8e3840f262b505ac5b907d30a5e6a6bf0f9bfa1269b22a2fde603db00bdf349ec84c89eaf033b1aff2631baf163b6bc30996573b824bb67e28017255525fb137b446b562a71912171b12ac5" />-->
+		<InternalsVisibleTo Include="RoadRunnerPlusDriverBase" />
+		<InternalsVisibleTo Include="RoadRunnerPlusDriverObjects" />
+		<InternalsVisibleTo Include="RoadRunnerPlusDriver" />
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+		<Compile Remove="Properties\**" />
+		<Compile Remove="System\**" />
+		<EmbeddedResource Remove="Properties\**" />
+		<EmbeddedResource Remove="System\**" />
+		<None Remove="Properties\**" />
+		<None Remove="System\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="RoadRunnerPlusBaseTypes.xsd" />
+		<None Remove="RoadRunnerPlusSchema.xsd" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="RoadRunnerPlusBaseTypes.xsd" />
+		<EmbeddedResource Include="RoadRunnerPlusSchema.xsd" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Logging\LoggingDesktop.Net6.csproj" />
+	</ItemGroup>
+
+
+	<!--This must be declard at the end of the Project, the SDK.CP.Build.props includes the Sdk.props-->
+	<Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+
+</Project>
