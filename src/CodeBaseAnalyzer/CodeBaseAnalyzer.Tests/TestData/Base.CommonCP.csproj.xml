@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>AcmeCorp.RoadRunnerplus.Base.Common</RootNamespace>
+    <AssemblyName>Base.Common</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin_int\**" />
+    <Compile Remove="obj_int\**" />
+    <Compile Remove="obj_net4\**" />
+    <Compile Remove="System\**" />
+    <EmbeddedResource Remove="bin_int\**" />
+    <EmbeddedResource Remove="obj_int\**" />
+    <EmbeddedResource Remove="obj_net4\**" />
+    <EmbeddedResource Remove="System\**" />
+    <None Remove="bin_int\**" />
+    <None Remove="obj_int\**" />
+    <None Remove="obj_net4\**" />
+    <None Remove="System\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="RoadRunnerPlusBaseTypes.xsd" />
+    <None Remove="RoadRunnerPlusSchema.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="RoadRunnerPlusBaseTypes.xsd" />
+    <EmbeddedResource Include="RoadRunnerPlusSchema.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Logging\LoggingCP.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>
