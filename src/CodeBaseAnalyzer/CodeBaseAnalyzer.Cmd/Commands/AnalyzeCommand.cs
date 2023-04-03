@@ -48,13 +48,12 @@ namespace CodeBaseAnalyzer.Cmd.Commands
             Console.WriteLine();
 
             // Print a summary.
-            ConsoleHelper.WriteLineInColor(ConsoleColor.White, "=== Summary ===");
             ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"{codeBase.Solutions.Count()} solution(s) found.");
             ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"{codeBase.Projects.Count()} project(s) found.");
             ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"{codeBase.SourceCodeFiles.Count()} source code file(s) found.");
             Console.WriteLine();
-            ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"{issues.Count(i => i.Type == IssueType.Error)} error(s) found.");
-            ConsoleHelper.WriteLineInColor(ConsoleColor.Yellow, $"{issues.Count(i => i.Type == IssueType.Warning)} warning(s) found.");
+
+            CommandTaskHelper.PrintIssuesSummary(issues);
         }
     }
 }

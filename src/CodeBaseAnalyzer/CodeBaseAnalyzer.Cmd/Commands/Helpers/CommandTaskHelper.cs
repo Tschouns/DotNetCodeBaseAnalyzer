@@ -1,11 +1,12 @@
 ﻿using CodeBaseAnalyzer.Base;
+using CodeBaseAnalyzer.Cmd.CommandLine;
 using CodeBaseAnalyzer.Issues;
 
 namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
 {
     internal static class CommandTaskHelper
     {
-        public static bool TryFindSingleMatchingFile(Func<IEnumerable<string>> searchForFiles, string fileNamePart, out string? match)
+        public static string FindSingleMatchingFile(Func<IEnumerable<string>> searchForFiles, string fileNamePart)
         {
             Argument.AssertNotNull(searchForFiles, nameof(searchForFiles));
             Argument.AssertNotNull(fileNamePart, nameof(fileNamePart));
@@ -20,34 +21,26 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
 
             if (!matchingCodeFiles.Any())
             {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"No file matching \"{fileNamePart}\" was found.");
-                match = null;
-
-                return false;
+                throw new CommandException($"No file matching \"{fileNamePart}\" was found.");                
             }
 
             if (matchingCodeFiles.Count() > 1)
             {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"Multiple files matching \"{fileNamePart}\" were found:");
+                var message = $"Multiple files matching \"{fileNamePart}\" were found:\n{string.Join('\n', matchingCodeFiles)}";
 
-                foreach (var file in matchingCodeFiles)
-                {
-                    ConsoleHelper.WriteLineInColor(ConsoleColor.Magenta, file);
-                }
-
-                match = null;
-
-                return false;
+                throw new CommandException(message);
             }
 
-            match = matchingCodeFiles.Single();
+            var match = matchingCodeFiles.Single();
             ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Found matching file \"{match}\".");
 
-            return true;
+            return match;
         }
 
         public static void ListIssuesInColor(IEnumerable<Issue> issues)
         {
+            Argument.AssertNotNull(issues, nameof(issues));
+
             var defaultColor = Console.ForegroundColor;
             var lineNumber = 1;
 
@@ -57,6 +50,17 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
                 ConsoleHelper.WriteLineInColor(color, $"{string.Format("{0,5:#####}", lineNumber)}\t{issue.Type}:\t{issue.Message}");
                 lineNumber++;
             }
+        }
+
+        public static void PrintIssuesSummary(IEnumerable<Issue> issues)
+        {
+            Argument.AssertNotNull(issues, nameof(issues));
+
+            var errorCount = issues.Count(i => i.Type == IssueType.Error);
+            var warningCount = issues.Count(i => i.Type == IssueType.Warning);
+
+            ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"{errorCount} error(s) found.");
+            ConsoleHelper.WriteLineInColor(ConsoleColor.Yellow, $"{warningCount} warning(s) found.");
         }
 
         private static ConsoleColor DetermineColorByIssueType(IssueType issueType, ConsoleColor defaultColor)
