@@ -9,7 +9,7 @@ namespace CodeBaseAnalyzer.Base
     /// <summary>
     /// Provides runtime checks for arguments.
     /// </summary>
-    internal static class Argument
+    public static class Argument
     {
         /// <summary>
         /// Asserts that the specified argument be not null.

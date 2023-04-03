@@ -1,6 +1,9 @@
 ﻿
 namespace CodeBaseAnalyzer.Base
 {
+    /// <summary>
+    /// Provides helper methods to handle paths.
+    /// </summary>
     public static class PathHelper
     {
         public static string CombineToAbsolutePath(string baseDirectoryPath, string relativePath)
