@@ -76,11 +76,23 @@ namespace CodeBaseAnalyzer.Cmd.CommandLine
             {
                 command.Execute(parameterDictionary);
             }
-            catch (Exception ex)
+            catch (CommandException ex)
             {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"An unexpected error has occurred while executing command \"{command.Name}\": {ex}");
+                Console.WriteLine();
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"The {command.Name} command failed: {ex.Message}");
+                Console.WriteLine();
+                Console.WriteLine();
 
                 return 7;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine();
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"An unexpected error has occurred while executing command \"{command.Name}\": {ex}");
+                Console.WriteLine();
+                Console.WriteLine();
+
+                return 8;
             }
 
             Console.WriteLine();

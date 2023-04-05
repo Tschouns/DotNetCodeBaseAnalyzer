@@ -2,7 +2,7 @@
   "profiles": {
     "CodeBaseAnalyzer.Cmd": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Data\\Dev\\Pal3Platform\""
+      "commandLineArgs": "analyze C:\\Data\\Dev\\Pal3Platform"
     }
   }
 }

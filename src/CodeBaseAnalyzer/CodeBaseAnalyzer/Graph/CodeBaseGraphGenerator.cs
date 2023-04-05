@@ -49,13 +49,16 @@ namespace CodeBaseAnalyzer.Graph
             var projects = projectFilePaths.Select(p => new Project(p)).ToList();
             var sourceCodeFiles = sourceCodeFilePaths.Select(c => new SourceCodeFile(c)).ToList();
 
-            var issues = new List<Issue>();
+            var allIssues = new List<Issue>();
 
             foreach (var solution in solutions)
             {
                 Action<Issue> addIssue = i =>
                 {
-                    issues.Add(i);
+                    // Add to "all".
+                    allIssues.Add(i);
+
+                    // Add to solution.
                     solution.IssuesInternal.Add(i);
                 };
 
@@ -64,17 +67,28 @@ namespace CodeBaseAnalyzer.Graph
 
             foreach (var project in projects)
             {
+                var dependentSolutions = solutions.Where(s => project.DependentSolutions.Contains(s)).ToList();
+
                 Action<Issue> addIssue = i =>
                 {
-                    issues.Add(i);
+                    // Add to "all".
+                    allIssues.Add(i);
+
+                    // Add to project.
                     project.IssuesInternal.Add(i);
+
+                    // Add to each solution.
+                    foreach (var solution in dependentSolutions)
+                    {
+                        solution.IssuesInternal.Add(i);
+                    }
                 };
 
                 this.AmendProjectProjectRelationship(project, projects, addIssue);
                 this.AmendProjectSourceCodeRelationship(project, sourceCodeFiles, addIssue);
             }
 
-            var codeBase = new CodeBase(codeBaseRootDirectoryAbsolute, solutions, projects, sourceCodeFiles, issues);
+            var codeBase = new CodeBase(codeBaseRootDirectoryAbsolute, solutions, projects, sourceCodeFiles, allIssues);
 
             return codeBase;
         }
@@ -210,24 +224,25 @@ namespace CodeBaseAnalyzer.Graph
             var compileIncludes = this.msBuildProjectHelper.GetCompileIncludes(projectFile);
             var compileRemoves = this.msBuildProjectHelper.GetCompileRemoves(projectFile);
 
+            if (compileRemoves.Any())
+            {
+                // Strange...
+                ////addIssue(Issue.Warn($"The project file format for project file \"{projectFilePath}\" could not be determined."));
+
+                // .NET Core and newer (.NET5, 6, etc.).
+                return new NetCoreProjectTasks(this.msBuildProjectHelper);
+            }
+
             if (compileIncludes.Any())
             {
-                if (compileRemoves.Any())
-                {
-                    // Strange...
-                    addIssue(Issue.Warn($"The project file format for project file \"{projectFilePath}\" could not be determined."));
 
-                    return new DummyProjectTasks();
-                }
 
                 // Old-school .NET Framework (4.x, etc.).
                 return new NetFwProjectTasks(this.msBuildProjectHelper);
             }
-            else
-            {
-                // .NET Core and newer (.NET5, 6, etc.).
-                return new NetCoreProjectTasks(this.msBuildProjectHelper);
-            }
+
+            // When in doubt... .NET Core and newer (.NET5, 6, etc.).
+            return new NetCoreProjectTasks(this.msBuildProjectHelper);
         }
     }
 }

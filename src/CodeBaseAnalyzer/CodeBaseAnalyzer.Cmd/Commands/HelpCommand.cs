@@ -35,9 +35,7 @@ namespace CodeBaseAnalyzer.Cmd.Commands
                 var specificCommand = commands.SingleOrDefault(c => c.Name == commandName);
                 if (specificCommand == null)
                 {
-                    ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"The specified command \"{commandName}\" is unknown.");
-
-                    return;
+                    throw new CommandException($"The specified command \"{commandName}\" is unknown.");
                 }
 
                 this.WriteShortInfo(specificCommand);

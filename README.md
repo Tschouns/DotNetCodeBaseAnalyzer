@@ -7,11 +7,11 @@ The tool can search a root directory for C#.NET solution, project and source cod
 
 ## Features
 The tool...
-- ...can analyse a "code base root directory", and represent the code base as a graph of solutions, projects, and source code files. (TODO)
-- ...allows users to look up the dependencies of, i.e. what is included in, a specific solution or project. (TODO)
-- ...allows users to look up where a specific source code file or project is used/referenced. (TODO)
+- ...can analyse a "code base root directory", and represent the code base as a graph of solutions, projects, and source code files. (Done)
+- ...allows users to look up the dependencies of, i.e. what is included in, a specific solution or project. (Done)
+- ...allows users to look up where a specific source code file or project is used/referenced. (Done)
 - ...provides analyzer rules to detect issues with the code base. (TODO)
-- ...reports issues (errors and warnings) as console output. (TODO)
+- ...reports issues (errors and warnings) as console output. (Done)
 - ...reports issues (errors and warnings) as a JSON file dump. (TODO)
 
 ## Analyser Rules (TODO)

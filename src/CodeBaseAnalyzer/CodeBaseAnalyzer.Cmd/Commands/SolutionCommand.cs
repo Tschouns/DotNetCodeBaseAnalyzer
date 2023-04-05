@@ -24,34 +24,32 @@ namespace CodeBaseAnalyzer.Cmd.Commands
 
             if (!Directory.Exists(codeBaseRootDirectory))
             {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"The code base root directory \"{codeBaseRootDirectory}\" does not exist.");
-                return;
+                throw new CommandException($"The code base root directory \"{codeBaseRootDirectory}\" does not exist.");
             }
 
-            if (CommandTaskHelper.TryFindSingleMatchingFile(() => CodeBaseAnalyzer.Search.FindSolutionFiles(codeBaseRootDirectory), fileName, out var match))
+            var match = CommandTaskHelper.FindSingleMatchingFile(() => CodeBaseAnalyzer.Search.FindSolutionFiles(codeBaseRootDirectory), fileName);
+
+            // Analyze the entire code base.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Analyzing code base root directory \"{codeBaseRootDirectory}\"...");
+            var codeBase = CodeBaseAnalyzer.Graph.GenerateGraph(codeBaseRootDirectory);
+            var solution = codeBase.Solutions.Single(f => f.FilePath == match);
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Projects.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Projects included in \"{solution.FilePath}\":");
+            foreach (var project in solution.IncludedProjects)
             {
-                // Analyze the entire code base.
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Analyzing code base root directory \"{codeBaseRootDirectory}\"...");
-                var codeBase = CodeBaseAnalyzer.Graph.GenerateGraph(codeBaseRootDirectory);
-                var solution = codeBase.Solutions.Single(f => f.FilePath == match);
-
-                Console.WriteLine();
-                Console.WriteLine();
-
-                // Projects.
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Projects included in \"{solution.FilePath}\":");
-                foreach (var project in solution.IncludedProjects)
-                {
-                    ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"> {project.FilePath}");
-                }
-
-                Console.WriteLine();
-                Console.WriteLine();
-
-                // Issues.
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Known issues with \"{solution.FilePath}\":");
-                CommandTaskHelper.ListIssuesInColor(solution.Issues);
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"> {project.FilePath}");
             }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Issues.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Known issues with \"{solution.FilePath}\":");
+            CommandTaskHelper.ListIssuesInColor(solution.Issues);
         }
     }
 }

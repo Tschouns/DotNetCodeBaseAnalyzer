@@ -23,44 +23,52 @@ namespace CodeBaseAnalyzer.Cmd.Commands
 
             if (!Directory.Exists(codeBaseRootDirectory))
             {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"The code base root directory \"{codeBaseRootDirectory}\" does not exist.");
-                return;
+                throw new CommandException($"The code base root directory \"{codeBaseRootDirectory}\" does not exist.");
             }
 
-            if (CommandTaskHelper.TryFindSingleMatchingFile(() => CodeBaseAnalyzer.Search.FindProjectFiles(codeBaseRootDirectory), fileName, out var match))
+            var match = CommandTaskHelper.FindSingleMatchingFile(() => CodeBaseAnalyzer.Search.FindProjectFiles(codeBaseRootDirectory), fileName);
+
+            // Analyze the entire code base.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Analyzing code base root directory \"{codeBaseRootDirectory}\"...");
+            var codeBase = CodeBaseAnalyzer.Graph.GenerateGraph(codeBaseRootDirectory);
+            var project = codeBase.Projects.Single(f => f.FilePath == match);
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Referenced projects.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Projects referenced by \"{project.FilePath}\":");
+            foreach (var referencedProject in project.ReferencedProjects)
             {
-                // Analyze the entire code base.
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Analyzing code base root directory \"{codeBaseRootDirectory}\"...");
-                var codeBase = CodeBaseAnalyzer.Graph.GenerateGraph(codeBaseRootDirectory);
-                var project = codeBase.Projects.Single(f => f.FilePath == match);
-
-                Console.WriteLine();
-                Console.WriteLine();
-
-                // Referenced projects.
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Projects referenced by \"{project.FilePath}\":");
-                foreach (var referencedProject in project.ReferencedProjects)
-                {
-                    ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"> {referencedProject.FilePath}");
-                }
-
-                Console.WriteLine();
-                Console.WriteLine();
-
-                // Dependent projects.
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Dependent projects, referencing \"{project.FilePath}\":");
-                foreach (var dependentProject in project.DependentProjects)
-                {
-                    ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"> {dependentProject.FilePath}");
-                }
-
-                Console.WriteLine();
-                Console.WriteLine();
-
-                // Issues.
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Known issues with \"{project.FilePath}\":");
-                CommandTaskHelper.ListIssuesInColor(project.Issues);
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"> {referencedProject.FilePath}");
             }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Dependent projects.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Dependent projects referencing \"{project.FilePath}\":");
+            foreach (var dependentProject in project.DependentProjects)
+            {
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"> {dependentProject.FilePath}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Dependent solutions.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Dependent solutions referencing \"{project.FilePath}\":");
+            foreach (var dependentSolution in project.DependentSolutions)
+            {
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"> {dependentSolution.FilePath}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Issues.
+            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Known issues with \"{project.FilePath}\":");
+            CommandTaskHelper.ListIssuesInColor(project.Issues);
         }
     }
 }

@@ -12,6 +12,7 @@ internal class Program
         commandManager.RegisterCommand(new SolutionCommand());
         commandManager.RegisterCommand(new ProjectCommand());
         commandManager.RegisterCommand(new UsagesCommand());
+        commandManager.RegisterCommand(new CheckCommand());
 
         return commandManager.Execute(args ?? new string[0]);
     }
