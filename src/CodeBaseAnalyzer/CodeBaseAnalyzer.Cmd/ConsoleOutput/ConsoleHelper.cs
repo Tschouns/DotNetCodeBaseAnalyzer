@@ -1,6 +1,8 @@
-﻿
-namespace CodeBaseAnalyzer.Cmd
+﻿namespace CodeBaseAnalyzer.Cmd.ConsoleOutput
 {
+    /// <summary>
+    /// Provides helper methods for handling the console.
+    /// </summary>
     internal static class ConsoleHelper
     {
         private static readonly object synch = new object();

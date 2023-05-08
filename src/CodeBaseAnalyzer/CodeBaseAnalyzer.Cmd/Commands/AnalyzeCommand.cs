@@ -1,15 +1,15 @@
 ﻿using CodeBaseAnalyzer.Cmd.CommandLine;
 using CodeBaseAnalyzer.Cmd.Commands.Helpers;
-using CodeBaseAnalyzer.Issues;
+using CodeBaseAnalyzer.Cmd.ConsoleOutput;
 
 namespace CodeBaseAnalyzer.Cmd.Commands
 {
     public class AnalyzeCommand : ICommand
     {
         public string GetName() => "analyze";
-        
-        public string GetDescription() => "Analyzes a code base root directory.";
-        
+
+        public string GetDescription() => "Analyzes a code base, and displays all detected issues.";
+
         public void DeclareParameters(IDeclareParameters declare)
         {
             declare.RequiredParameter("root", "The code base root directory.");

@@ -9,10 +9,10 @@ internal class Program
         var commandManager = new CommandManager();
         commandManager.RegisterCommand(new HelpCommand(() => commandManager));
         commandManager.RegisterCommand(new AnalyzeCommand());
+        commandManager.RegisterCommand(new CheckCommand());
         commandManager.RegisterCommand(new SolutionCommand());
         commandManager.RegisterCommand(new ProjectCommand());
         commandManager.RegisterCommand(new UsagesCommand());
-        commandManager.RegisterCommand(new CheckCommand());
 
         return commandManager.Execute(args ?? new string[0]);
     }

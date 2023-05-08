@@ -1,6 +1,6 @@
-﻿using CodeBaseAnalyzer.Base;
-using CodeBaseAnalyzer.Cmd.CommandLine;
+﻿using CodeBaseAnalyzer.Cmd.CommandLine;
 using CodeBaseAnalyzer.Cmd.Commands.Helpers;
+using CodeBaseAnalyzer.Cmd.ConsoleOutput;
 
 namespace CodeBaseAnalyzer.Cmd.Commands
 {

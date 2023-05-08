@@ -2,7 +2,6 @@
 using CodeBaseAnalyzer.Graph.Helpers;
 using CodeBaseAnalyzer.Graph.Model;
 using CodeBaseAnalyzer.Issues;
-using CodeBaseAnalyzer.Search;
 using System.Xml;
 
 namespace CodeBaseAnalyzer.Graph.Projects

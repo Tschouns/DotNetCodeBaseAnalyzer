@@ -1,5 +1,4 @@
 ﻿using CodeBaseAnalyzer.Graph.Model;
-using CodeBaseAnalyzer.Graph.Model.Internal;
 using CodeBaseAnalyzer.Issues;
 
 namespace CodeBaseAnalyzer.Graph.Projects

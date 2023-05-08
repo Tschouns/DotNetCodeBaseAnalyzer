@@ -8,7 +8,7 @@ namespace CodeBaseAnalyzer.Cmd.CommandLine
     {
         public CommandException(string message)
             : base(message)
-        {            
+        {
         }
     }
 }
