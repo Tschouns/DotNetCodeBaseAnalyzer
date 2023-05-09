@@ -1,5 +1,6 @@
 ﻿using CodeBaseAnalyzer.Base;
 using CodeBaseAnalyzer.Cmd.CommandLine.Internal;
+using CodeBaseAnalyzer.Cmd.ConsoleOutput;
 
 namespace CodeBaseAnalyzer.Cmd.CommandLine
 {
@@ -52,12 +53,21 @@ namespace CodeBaseAnalyzer.Cmd.CommandLine
             var command = this.commands[commandName];
             var remainingArguments = args.Skip(1).ToArray();
 
-            // TODO: Special "help" param option?
+            // Special built-in help option.
+            if (remainingArguments.FirstOrDefault() == "--help" ||
+                remainingArguments.FirstOrDefault() == "-h")
+            {
+                // Display command specific help.
+                HelpHelper.WriteCommandShortInfo(command);
+                HelpHelper.WriteCommandParameters(command);
+
+                return 0;
+            }
 
             // Prepare required and optional (named) parameters.
             if (remainingArguments.Length < command.RequiredParameters.Count)
             {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"Insufficient number of parameters (required: {command.RequiredParameters.Count}, specified: {remainingArguments.Length}).");
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"Invalid number of parameters (required: {command.RequiredParameters.Count}, specified: {remainingArguments.Length}). Use the \"--help\" or \"-h\" option for more info.");
 
                 return 3;
             }
@@ -70,7 +80,7 @@ namespace CodeBaseAnalyzer.Cmd.CommandLine
             {
                 return returnValue;
             }
-  
+
             // Execute the command.
             try
             {
@@ -95,6 +105,7 @@ namespace CodeBaseAnalyzer.Cmd.CommandLine
                 return 8;
             }
 
+            // Execution completed successfully.
             Console.WriteLine();
             ConsoleHelper.WriteLineInColor(ConsoleColor.Green, "Done.");
             Console.WriteLine();
@@ -103,23 +114,23 @@ namespace CodeBaseAnalyzer.Cmd.CommandLine
             return 0;
         }
 
-        private int PrepareParameters(ICommandDescription command, string[] remainingArguments, IDictionary<string, string> parameterDictionary)
+        private int PrepareParameters(ICommandDescription command, string[] remainingArguments, IDictionary<string, string> resultingParameterDictionary)
         {
             Argument.AssertNotNull(command, nameof(command));
             Argument.AssertNotNull(remainingArguments, nameof(remainingArguments));
-            Argument.AssertNotNull(parameterDictionary, nameof(parameterDictionary));
+            Argument.AssertNotNull(resultingParameterDictionary, nameof(resultingParameterDictionary));
 
             // Prepare required parameters, based on order of specification.
             foreach (var parameterDescription in command.RequiredParameters)
             {
-                parameterDictionary.Add(parameterDescription.Name, remainingArguments.First());
+                resultingParameterDictionary.Add(parameterDescription.Name, remainingArguments.First());
                 remainingArguments = remainingArguments.Skip(1).ToArray();
             }
 
             // Prepare named parameters, assumed to be specified as name-value pairs.
             if (remainingArguments.Length % 2 != 0)
             {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"Incoherent number of parameters; remaining optional (named) parameters must be an even number (name-value pairs).");
+                ConsoleHelper.WriteLineInColor(ConsoleColor.Red, $"Invalid number of parameters; remaining optional (named) parameters must be an even number (name-value pairs). Alternatively, use the \"--help\" or \"-h\" option for more info.");
 
                 return 4;
             }
@@ -155,7 +166,7 @@ namespace CodeBaseAnalyzer.Cmd.CommandLine
                     return 6;
                 }
 
-                parameterDictionary.Add(parameterDescription.Name, parameterValue);
+                resultingParameterDictionary.Add(parameterDescription.Name, parameterValue);
             }
 
             return 0;

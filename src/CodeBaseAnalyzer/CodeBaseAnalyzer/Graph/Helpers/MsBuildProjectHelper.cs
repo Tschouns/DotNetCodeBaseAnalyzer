@@ -8,7 +8,7 @@ namespace CodeBaseAnalyzer.Graph.Helpers
         public IReadOnlyList<string> GetProjectReferenceIncludes(XmlDocument msBuildProjectDocument) =>
             GetSpecificElementAttributes(msBuildProjectDocument, "ProjectReference", "Include");
 
-        public IReadOnlyList<string> GetCompileIncludes(XmlDocument msBuildProjectDocument) => 
+        public IReadOnlyList<string> GetCompileIncludes(XmlDocument msBuildProjectDocument) =>
             GetSpecificElementAttributes(msBuildProjectDocument, "Compile", "Include");
 
         public IReadOnlyList<string> GetCompileRemoves(XmlDocument msBuildProjectDocument) =>

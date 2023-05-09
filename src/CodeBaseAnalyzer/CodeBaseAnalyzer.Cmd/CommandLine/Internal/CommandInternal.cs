@@ -1,6 +1,5 @@
 ﻿
 using CodeBaseAnalyzer.Base;
-using System.Runtime.CompilerServices;
 
 namespace CodeBaseAnalyzer.Cmd.CommandLine.Internal
 {

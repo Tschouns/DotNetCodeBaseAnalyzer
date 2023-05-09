@@ -1,6 +1,5 @@
 ﻿
 using CodeBaseAnalyzer.Graph;
-using CodeBaseAnalyzer.Graph.Helpers;
 using CodeBaseAnalyzer.Search;
 
 namespace CodeBaseAnalyzer

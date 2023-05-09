@@ -1,9 +1,8 @@
 ﻿
 using CodeBaseAnalyzer.Cmd.CommandLine;
 using CodeBaseAnalyzer.Cmd.Commands.Helpers;
-using CodeBaseAnalyzer.Graph.Model;
+using CodeBaseAnalyzer.Cmd.ConsoleOutput;
 using CodeBaseAnalyzer.Issues;
-using System.Text.RegularExpressions;
 
 namespace CodeBaseAnalyzer.Cmd.Commands
 {
@@ -11,7 +10,7 @@ namespace CodeBaseAnalyzer.Cmd.Commands
     {
         public string GetName() => "check";
 
-        public string GetDescription() => "Checks a code base or specific solution for issues, and fails if there are any errors.";
+        public string GetDescription() => "Analyses a code base or specific solution, and fails (returns a non-zero value) if there are any errors. This may be useful automated builds / CI pipelines.";
 
         public void DeclareParameters(IDeclareParameters declare)
         {

@@ -1,6 +1,7 @@
 ﻿using CodeBaseAnalyzer.Base;
 using CodeBaseAnalyzer.Cmd.CommandLine;
-using CodeBaseAnalyzer.Graph.Model;
+using CodeBaseAnalyzer.Cmd.CommandLine.Internal;
+using CodeBaseAnalyzer.Cmd.ConsoleOutput;
 
 namespace CodeBaseAnalyzer.Cmd.Commands
 {
@@ -38,8 +39,8 @@ namespace CodeBaseAnalyzer.Cmd.Commands
                     throw new CommandException($"The specified command \"{commandName}\" is unknown.");
                 }
 
-                this.WriteShortInfo(specificCommand);
-                this.WriteParameters(specificCommand);
+                HelpHelper.WriteCommandShortInfo(specificCommand);
+                HelpHelper.WriteCommandParameters(specificCommand);
 
                 return;
             }
@@ -47,32 +48,9 @@ namespace CodeBaseAnalyzer.Cmd.Commands
             // Otherwise, quick overview of all commands.
             ConsoleHelper.WriteLineInColor(ConsoleColor.White, "Available commands:");
 
-            foreach ( var command in commands )
+            foreach (var command in commands)
             {
-                this.WriteShortInfo(command);
-            }
-        }
-
-        private void WriteShortInfo(ICommandDescription command)
-        {
-            ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"> {command.Name}");
-            ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan,  $"  {command.Description}");
-        }
-
-        private void WriteParameters(ICommandDescription command)
-        {
-            ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan, $"  Parameters:");
-
-            foreach (var param in command.RequiredParameters)
-            {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"  > {param.Name} (required)");
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan,  $"    {param.Description}");
-            }
-
-            foreach (var param in command.NamedParameters)
-            {
-                ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"  > --{param.Name}, -{param.ShortName} (optional, named)");
-                ConsoleHelper.WriteLineInColor(ConsoleColor.Cyan,  $"    {param.Description}");
+                HelpHelper.WriteCommandShortInfo(command);
             }
         }
     }

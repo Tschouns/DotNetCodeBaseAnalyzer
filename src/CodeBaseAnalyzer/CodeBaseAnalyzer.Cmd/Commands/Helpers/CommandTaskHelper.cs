@@ -1,5 +1,6 @@
 ﻿using CodeBaseAnalyzer.Base;
 using CodeBaseAnalyzer.Cmd.CommandLine;
+using CodeBaseAnalyzer.Cmd.ConsoleOutput;
 using CodeBaseAnalyzer.Issues;
 
 namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
@@ -21,7 +22,7 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
 
             if (!matchingCodeFiles.Any())
             {
-                throw new CommandException($"No file matching \"{fileNamePart}\" was found.");                
+                throw new CommandException($"No file matching \"{fileNamePart}\" was found.");
             }
 
             if (matchingCodeFiles.Count() > 1)
