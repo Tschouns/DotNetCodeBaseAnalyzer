@@ -13,6 +13,7 @@ internal class Program
         commandManager.RegisterCommand(new SolutionCommand());
         commandManager.RegisterCommand(new ProjectCommand());
         commandManager.RegisterCommand(new UsagesCommand());
+        commandManager.RegisterCommand(new OverlapCommand());
 
         return commandManager.Execute(args ?? new string[0]);
     }
