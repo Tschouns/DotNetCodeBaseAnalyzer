@@ -7,6 +7,22 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
 {
     internal static class CommandTaskHelper
     {
+        /// <summary>
+        /// Finds a single file matching the specified file name (or part) within a search result set, determined by
+        /// the specified search function.
+        /// </summary>
+        /// <param name="searchForFiles">
+        /// The search function which returns the base set of files to search
+        /// </param>
+        /// <param name="fileNamePart">
+        /// The file name (or part) to match
+        /// </param>
+        /// <returns>
+        /// The single matching file
+        /// </returns>
+        /// <exception cref="CommandException">
+        /// Thrown if the match could not be uniquely determined
+        /// </exception>
         public static string FindSingleMatchingFile(Func<IEnumerable<string>> searchForFiles, string fileNamePart)
         {
             Argument.AssertNotNull(searchForFiles, nameof(searchForFiles));
@@ -14,9 +30,9 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
 
             // First search for file, check it exists and we have a unique match.
             ConsoleHelper.WriteLineInColor(ConsoleColor.White, $"Searching for \"{fileNamePart}\"...");
-            var allCodeFiles = searchForFiles();
+            var allFiles = searchForFiles();
 
-            var matchingCodeFiles = allCodeFiles
+            var matchingCodeFiles = allFiles
                 .Where(f => f.Contains(fileNamePart, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
@@ -38,6 +54,12 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
             return match;
         }
 
+        /// <summary>
+        /// Displays the specified list of issues -- in color.
+        /// </summary>
+        /// <param name="issues">
+        /// The issues to display
+        /// </param>
         public static void ListIssuesInColor(IEnumerable<Issue> issues)
         {
             Argument.AssertNotNull(issues, nameof(issues));
@@ -53,6 +75,12 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
             }
         }
 
+        /// <summary>
+        /// Displays a summary of the specified issues.
+        /// </summary>
+        /// <param name="issues">
+        /// The issues for which to display the summary
+        /// </param>
         public static void PrintIssuesSummary(IEnumerable<Issue> issues)
         {
             Argument.AssertNotNull(issues, nameof(issues));
@@ -64,6 +92,18 @@ namespace CodeBaseAnalyzer.Cmd.Commands.Helpers
             ConsoleHelper.WriteLineInColor(ConsoleColor.Yellow, $"{warningCount} warning(s) found.");
         }
 
+        /// <summary>
+        /// Determines the display color for the specified issue type.
+        /// </summary>
+        /// <param name="issueType">
+        /// The issue type
+        /// </param>
+        /// <param name="defaultColor">
+        /// The default color, used as fall-back
+        /// </param>
+        /// <returns>
+        /// The appropriate display color
+        /// </returns>
         private static ConsoleColor DetermineColorByIssueType(IssueType issueType, ConsoleColor defaultColor)
         {
             switch (issueType)
