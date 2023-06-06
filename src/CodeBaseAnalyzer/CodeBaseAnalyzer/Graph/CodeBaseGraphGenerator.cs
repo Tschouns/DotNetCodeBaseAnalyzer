@@ -49,6 +49,10 @@ namespace CodeBaseAnalyzer.Graph
             var projects = projectFilePaths.Select(p => new Project(p)).ToList();
             var sourceCodeFiles = sourceCodeFilePaths.Select(c => new SourceCodeFile(c)).ToList();
 
+            var solutionsDict = solutions.ToDictionary(s => s.FilePath);
+            var projectsDict = projects.ToDictionary(p => p.FilePath);
+            var sourceCodeFilesDict = sourceCodeFiles.ToDictionary(c => c.FilePath);
+
             var allIssues = new List<Issue>();
 
             foreach (var solution in solutions)
@@ -62,13 +66,11 @@ namespace CodeBaseAnalyzer.Graph
                     solution.IssuesInternal.Add(i);
                 };
 
-                this.AmendSolutionProjectRelationship(solution, projects, addIssue);
+                this.AmendSolutionProjectRelationship(solution, projectsDict, addIssue);
             }
 
             foreach (var project in projects)
             {
-                var dependentSolutions = solutions.Where(s => project.DependentSolutions.Contains(s)).ToList();
-
                 Action<Issue> addIssue = i =>
                 {
                     // Add to "all".
@@ -78,14 +80,14 @@ namespace CodeBaseAnalyzer.Graph
                     project.IssuesInternal.Add(i);
 
                     // Add to each solution.
-                    foreach (var solution in dependentSolutions)
+                    foreach (var solution in project.DependentSolutionsInternal)
                     {
                         solution.IssuesInternal.Add(i);
                     }
                 };
 
-                this.AmendProjectProjectRelationship(project, projects, addIssue);
-                this.AmendProjectSourceCodeRelationship(project, sourceCodeFiles, addIssue);
+                this.AmendProjectProjectRelationship(project, projectsDict, addIssue);
+                this.AmendProjectSourceCodeRelationship(project, sourceCodeFilesDict, addIssue);
             }
 
             var codeBase = new CodeBase(codeBaseRootDirectoryAbsolute, solutions, projects, sourceCodeFiles, allIssues);
@@ -93,7 +95,7 @@ namespace CodeBaseAnalyzer.Graph
             return codeBase;
         }
 
-        private void AmendSolutionProjectRelationship(Solution solution, IReadOnlyList<Project> allProjects, Action<Issue> addIssue)
+        private void AmendSolutionProjectRelationship(Solution solution, IDictionary<string, Project> allProjects, Action<Issue> addIssue)
         {
             Argument.AssertNotNull(solution, nameof(solution));
             Argument.AssertNotNull(allProjects, nameof(allProjects));
@@ -105,17 +107,15 @@ namespace CodeBaseAnalyzer.Graph
 
                 foreach (var projectReference in solutionFile.ProjectsInOrder.Where(p => p.ProjectType == SolutionProjectType.KnownToBeMSBuildFormat))
                 {
-                    var project = allProjects.SingleOrDefault(p => p.FilePath == projectReference.AbsolutePath);
-
-                    if (project == null)
-                    {
-                        addIssue(Issue.Error($"The solution \"{solution.FilePath}\" references a project \"{projectReference.AbsolutePath}\" which does not exist."));
-                    }
-                    else
+                    if (allProjects.TryGetValue(projectReference.AbsolutePath, out var project))
                     {
                         // Associate solution and project.
                         solution.IncludedProjectsInternal.Add(project);
                         project.DependentSolutionsInternal.Add(solution);
+                    }
+                    else
+                    {
+                        addIssue(Issue.Error($"The solution \"{solution.FilePath}\" references a project \"{projectReference.AbsolutePath}\" which does not exist."));
                     }
                 }
             }
@@ -127,7 +127,7 @@ namespace CodeBaseAnalyzer.Graph
             }
         }
 
-        private void AmendProjectProjectRelationship(Project project, IReadOnlyList<Project> allProjects, Action<Issue> addIssue)
+        private void AmendProjectProjectRelationship(Project project, IDictionary<string, Project> allProjects, Action<Issue> addIssue)
         {
             Argument.AssertNotNull(project, nameof(project));
             Argument.AssertNotNull(allProjects, nameof(allProjects));
@@ -153,46 +153,34 @@ namespace CodeBaseAnalyzer.Graph
             {
                 // Determine the absolute path of the referenced project.
                 var projectReferenceAbsolute = PathHelper.CombineToAbsolutePath(projectBaseDirectory, projectReference);
-                var referencedProject = allProjects.SingleOrDefault(p => p.FilePath == projectReferenceAbsolute);
 
-                if (referencedProject == null)
-                {
-                    addIssue(Issue.Error($"The project \"{project.FilePath}\" references another project \"{projectReferenceAbsolute}\" which does not exist."));
-                }
-                else
+                if (allProjects.TryGetValue(projectReferenceAbsolute, out var referencedProject))
                 {
                     // Associate the two projects.
                     project.ReferencedProjectsInternal.Add(referencedProject);
                     referencedProject.DependentProjectsInternal.Add(project);
                 }
+                else
+                {
+                    addIssue(Issue.Error($"The project \"{project.FilePath}\" references another project \"{projectReferenceAbsolute}\" which does not exist."));
+                }
             }
         }
 
-        private void AmendProjectSourceCodeRelationship(Project project, IReadOnlyList<SourceCodeFile> allSourceCodeFile, Action<Issue> addIssue)
+        private void AmendProjectSourceCodeRelationship(Project project, IDictionary<string, SourceCodeFile> allSourceCodeFile, Action<Issue> addIssue)
         {
             Argument.AssertNotNull(project, nameof(project));
             Argument.AssertNotNull(allSourceCodeFile, nameof(allSourceCodeFile));
             Argument.AssertNotNull(addIssue, nameof(addIssue));
 
             var projectTasks = this.SelectProjectTasks(project.FilePath, addIssue);
+            var referencedSourceCodeFiles = projectTasks.GetIncludedFiles(project.FilePath, allSourceCodeFile, addIssue);
 
-            var allIncludedFilePaths = projectTasks.GetIncludedFiles(project.FilePath, allSourceCodeFile, addIssue);
-            var projectBaseDirectory = Path.GetDirectoryName(project.FilePath);
-
-            // TODO: do this filtering stuff inside the IProjectTasks implementation, based on "all source code files" list.
-            // Determine which are actually source code.
-            foreach (var includedFilePath in allIncludedFilePaths)
+            foreach (var referencedSourceCodeFile in referencedSourceCodeFiles.OrderBy(c => c.FilePath))
             {
-                // Determine the absolute path of the referenced file.
-                var includedFileAbsolutePaths = PathHelper.CombineToAbsolutePath(projectBaseDirectory, includedFilePath);
-                var referencedSourceCodeFile = allSourceCodeFile.SingleOrDefault(c => c.FilePath == includedFileAbsolutePaths);
-
-                if (referencedSourceCodeFile != null)
-                {
-                    // Associate the project and source code file.
-                    project.SourceCodeFilesInternal.Add(referencedSourceCodeFile);
-                    referencedSourceCodeFile.DependentProjectsInternal.Add(project);
-                }
+                // Associate the project and source code file.
+                project.SourceCodeFilesInternal.Add(referencedSourceCodeFile);
+                referencedSourceCodeFile.DependentProjectsInternal.Add(project);
             }
         }
 
@@ -235,8 +223,6 @@ namespace CodeBaseAnalyzer.Graph
 
             if (compileIncludes.Any())
             {
-
-
                 // Old-school .NET Framework (4.x, etc.).
                 return new NetFwProjectTasks(this.msBuildProjectHelper);
             }

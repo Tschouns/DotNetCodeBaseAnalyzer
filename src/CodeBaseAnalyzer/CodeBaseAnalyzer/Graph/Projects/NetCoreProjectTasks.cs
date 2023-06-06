@@ -1,6 +1,6 @@
 ﻿using CodeBaseAnalyzer.Base;
 using CodeBaseAnalyzer.Graph.Helpers;
-using CodeBaseAnalyzer.Graph.Model;
+using CodeBaseAnalyzer.Graph.Model.Internal;
 using CodeBaseAnalyzer.Issues;
 using System.Xml;
 
@@ -20,7 +20,7 @@ namespace CodeBaseAnalyzer.Graph.Projects
             this.msBuildProjectHelper = msBuildProjectHelper;
         }
 
-        public IEnumerable<string> GetIncludedFiles(string projectFilePath, IReadOnlyList<ISourceCodeFile> allSourceCodeFiles, Action<Issue> addIssue)
+        public IEnumerable<SourceCodeFile> GetIncludedFiles(string projectFilePath, IDictionary<string, SourceCodeFile> allSourceCodeFiles, Action<Issue> addIssue)
         {
             Argument.AssertNotNull(projectFilePath, nameof(projectFilePath));
             Argument.AssertNotNull(allSourceCodeFiles, nameof(allSourceCodeFiles));
@@ -47,16 +47,10 @@ namespace CodeBaseAnalyzer.Graph.Projects
             {
                 addIssue(Issue.Warn($"The project file \"{projectFile}\" could not be parsed: {ex}"));
 
-                return new string[0];
+                return new SourceCodeFile[0];
             }
 
             var projectBaseDirectory = Path.GetDirectoryName(projectFilePath);
-
-            // Find (implicitly included) files within project directory.
-            var implicitlyIncludedFiles = allSourceCodeFiles
-                .Select(c => c.FilePath)
-                .Where(p => p.StartsWith(projectBaseDirectory))
-                .ToList();
 
             // Determine which files are explicitly expluded in the project file.
             var compileRemoves = this.msBuildProjectHelper.GetCompileRemoves(projectFile);
@@ -64,12 +58,15 @@ namespace CodeBaseAnalyzer.Graph.Projects
                 .Select(p => PathHelper.CombineToAbsolutePath(projectBaseDirectory, p))
                 .ToList();
 
-            // Filter files.
-            var remainingFiles = implicitlyIncludedFiles
-                .Where(i => !compileRemovesAbsolute.Contains(i))
+            // Find (implicitly included) files within project directory, and filter by "removes".
+            var implicitlyIncludedFiles = allSourceCodeFiles
+                .Where(c =>
+                    c.Key.StartsWith(projectBaseDirectory) &&
+                    compileRemovesAbsolute.Contains(c.Key))
+                .Select(c => c.Value)
                 .ToList();
 
-            return remainingFiles;
+            return implicitlyIncludedFiles;
         }
     }
 }

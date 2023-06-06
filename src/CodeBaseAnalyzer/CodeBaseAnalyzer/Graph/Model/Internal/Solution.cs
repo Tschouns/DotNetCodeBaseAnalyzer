@@ -16,7 +16,7 @@ namespace CodeBaseAnalyzer.Graph.Model.Internal
         public IReadOnlyList<IProject> IncludedProjects => this.IncludedProjectsInternal;
         public IReadOnlyList<Issue> Issues => this.IssuesInternal;
 
-        internal List<IProject> IncludedProjectsInternal { get; } = new List<IProject>();
+        internal List<Project> IncludedProjectsInternal { get; } = new List<Project>();
         internal List<Issue> IssuesInternal { get; } = new List<Issue>();
 
         public override string ToString()
