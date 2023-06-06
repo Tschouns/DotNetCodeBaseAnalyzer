@@ -41,6 +41,7 @@ namespace CodeBaseAnalyzer.Graph
 
             var codeBaseRootDirectoryAbsolute = PathHelper.CombineToAbsolutePath(Environment.CurrentDirectory, codeBaseRootDirectory);
 
+            // Pre-ordered files (not strictly necessary, but beneficial performancewise).
             var solutionFilePaths = this.searchHelper.FindFilteredAndOrdered(codeBaseRootDirectoryAbsolute, "*.sln");
             var projectFilePaths = this.searchHelper.FindFilteredAndOrdered(codeBaseRootDirectoryAbsolute, "*.csproj");
             var sourceCodeFilePaths = this.searchHelper.FindFilteredAndOrdered(codeBaseRootDirectoryAbsolute, "*.cs");
@@ -55,41 +56,62 @@ namespace CodeBaseAnalyzer.Graph
 
             var allIssues = new List<Issue>();
 
-            foreach (var solution in solutions)
-            {
-                Action<Issue> addIssue = i =>
-                {
-                    // Add to "all".
-                    allIssues.Add(i);
-
-                    // Add to solution.
-                    solution.IssuesInternal.Add(i);
-                };
-
-                this.AmendSolutionProjectRelationship(solution, projectsDict, addIssue);
-            }
-
-            foreach (var project in projects)
-            {
-                Action<Issue> addIssue = i =>
-                {
-                    // Add to "all".
-                    allIssues.Add(i);
-
-                    // Add to project.
-                    project.IssuesInternal.Add(i);
-
-                    // Add to each solution.
-                    foreach (var solution in project.DependentSolutionsInternal)
+            // Process all solutions async.
+            var solutionTasks = solutions
+                .Select(solution => new Task(() =>
                     {
-                        solution.IssuesInternal.Add(i);
-                    }
-                };
+                        Action<Issue> addIssue = i =>
+                        {
+                            // Add to "all".
+                            allIssues.Add(i);
 
-                this.AmendProjectProjectRelationship(project, projectsDict, addIssue);
-                this.AmendProjectSourceCodeRelationship(project, sourceCodeFilesDict, addIssue);
+                            // Add to solution.
+                            solution.IssuesInternal.Add(i);
+                        };
+
+                        this.AmendSolutionProjectRelationship(solution, projectsDict, addIssue);
+                    }))
+                .ToArray();
+
+            foreach(var task in solutionTasks)
+            {
+                task.Start();
             }
 
+            Task.WaitAll(solutionTasks);
+
+            // Process all projects async.
+            var projectTasks = projects
+                .Select(project => new Task(() =>
+                    {
+                        Action<Issue> addIssue = i =>
+                        {
+                            // Add to "all".
+                            allIssues.Add(i);
+
+                            // Add to project.
+                            project.IssuesInternal.Add(i);
+
+                            // Add to each solution.
+                            foreach (var solution in project.DependentSolutionsInternal)
+                            {
+                                solution.IssuesInternal.Add(i);
+                            }
+                        };
+
+                        this.AmendProjectProjectRelationship(project, projectsDict, addIssue);
+                        this.AmendProjectSourceCodeRelationship(project, sourceCodeFilesDict, addIssue);
+                    }))
+                .ToArray();
+
+            foreach (var task in projectTasks)
+            {
+                task.Start();
+            }
+
+            Task.WaitAll(projectTasks);
+
+            // Assemble the "code base" model.
             var codeBase = new CodeBase(codeBaseRootDirectoryAbsolute, solutions, projects, sourceCodeFiles, allIssues);
 
             return codeBase;
@@ -111,7 +133,11 @@ namespace CodeBaseAnalyzer.Graph
                     {
                         // Associate solution and project.
                         solution.IncludedProjectsInternal.Add(project);
-                        project.DependentSolutionsInternal.Add(solution);
+
+                        lock (project.DependentSolutionsInternal)
+                        {
+                            project.DependentSolutionsInternal.Add(solution);
+                        }
                     }
                     else
                     {
@@ -158,7 +184,11 @@ namespace CodeBaseAnalyzer.Graph
                 {
                     // Associate the two projects.
                     project.ReferencedProjectsInternal.Add(referencedProject);
-                    referencedProject.DependentProjectsInternal.Add(project);
+
+                    lock (referencedProject.DependentProjectsInternal)
+                    {
+                        referencedProject.DependentProjectsInternal.Add(project);
+                    }
                 }
                 else
                 {
@@ -176,11 +206,15 @@ namespace CodeBaseAnalyzer.Graph
             var projectTasks = this.SelectProjectTasks(project.FilePath, addIssue);
             var referencedSourceCodeFiles = projectTasks.GetIncludedFiles(project.FilePath, allSourceCodeFile, addIssue);
 
-            foreach (var referencedSourceCodeFile in referencedSourceCodeFiles.OrderBy(c => c.FilePath))
+            foreach (var referencedSourceCodeFile in referencedSourceCodeFiles)
             {
                 // Associate the project and source code file.
                 project.SourceCodeFilesInternal.Add(referencedSourceCodeFile);
-                referencedSourceCodeFile.DependentProjectsInternal.Add(project);
+
+                lock (referencedSourceCodeFile.DependentProjectsInternal)
+                {
+                    referencedSourceCodeFile.DependentProjectsInternal.Add(project);
+                }
             }
         }
 
