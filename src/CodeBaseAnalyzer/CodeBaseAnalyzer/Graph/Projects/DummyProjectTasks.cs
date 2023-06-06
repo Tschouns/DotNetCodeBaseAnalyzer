@@ -1,4 +1,4 @@
-﻿using CodeBaseAnalyzer.Graph.Model;
+﻿using CodeBaseAnalyzer.Graph.Model.Internal;
 using CodeBaseAnalyzer.Issues;
 
 namespace CodeBaseAnalyzer.Graph.Projects
@@ -8,6 +8,6 @@ namespace CodeBaseAnalyzer.Graph.Projects
     /// </summary>
     internal class DummyProjectTasks : IProjectTasks
     {
-        public IEnumerable<string> GetIncludedFiles(string projectFilePath, IReadOnlyList<ISourceCodeFile> allSourceCodeFiles, Action<Issue> addIssue) => new string[0];
+        public IEnumerable<SourceCodeFile> GetIncludedFiles(string projectFilePath, IDictionary<string, SourceCodeFile> allSourceCodeFiles, Action<Issue> addIssue) => new SourceCodeFile[0];
     }
 }

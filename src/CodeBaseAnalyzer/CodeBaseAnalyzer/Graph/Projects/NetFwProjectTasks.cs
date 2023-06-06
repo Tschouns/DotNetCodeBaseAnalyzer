@@ -1,6 +1,6 @@
 ﻿using CodeBaseAnalyzer.Base;
 using CodeBaseAnalyzer.Graph.Helpers;
-using CodeBaseAnalyzer.Graph.Model;
+using CodeBaseAnalyzer.Graph.Model.Internal;
 using CodeBaseAnalyzer.Issues;
 using System.Xml;
 
@@ -20,9 +20,10 @@ namespace CodeBaseAnalyzer.Graph.Projects
             this.msBuildProjectHelper = msBuildProjectHelper;
         }
 
-        public IEnumerable<string> GetIncludedFiles(string projectFilePath, IReadOnlyList<ISourceCodeFile> allSourceCodeFiles, Action<Issue> addIssue)
+        public IEnumerable<SourceCodeFile> GetIncludedFiles(string projectFilePath, IDictionary<string, SourceCodeFile> allSourceCodeFiles, Action<Issue> addIssue)
         {
             Argument.AssertNotNull(projectFilePath, nameof(projectFilePath));
+            Argument.AssertNotNull(allSourceCodeFiles, nameof(allSourceCodeFiles));
             Argument.AssertNotNull(addIssue, nameof(addIssue));
 
             if (!File.Exists(projectFilePath))
@@ -41,12 +42,23 @@ namespace CodeBaseAnalyzer.Graph.Projects
             {
                 addIssue(Issue.Warn($"The project file \"{projectFile}\" could not be parsed: {ex}"));
 
-                return new string[0];
+                return new SourceCodeFile[0];
             }
 
             var compileIncludes = this.msBuildProjectHelper.GetCompileIncludes(projectFile);
+            var projectBaseDirectory = Path.GetDirectoryName(projectFilePath);
+            var includedSourceCodeFiles = new List<SourceCodeFile>();
 
-            return compileIncludes;
+            foreach (var compileInclude in compileIncludes)
+            {
+                var includedFileAbsolutePath = PathHelper.CombineToAbsolutePath(projectBaseDirectory, compileInclude);
+                if (allSourceCodeFiles.TryGetValue(includedFileAbsolutePath, out var sourceCodeFile))
+                {
+                    includedSourceCodeFiles.Add(sourceCodeFile);
+                }
+            }
+
+            return includedSourceCodeFiles;
         }
     }
 }
